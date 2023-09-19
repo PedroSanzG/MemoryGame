@@ -18,11 +18,11 @@ body, html {
     right: 10px;
     z-index: 10; /* Ensure it's above the game board */
     padding: 10px 20px;
-    font-size: 10rem;
+    font-size: 5rem;
     background-color: #ffffff;
     border: none;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
