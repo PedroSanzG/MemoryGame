@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
         gameBoard.appendChild(card);
 
         card.addEventListener('click', () => {
+            if (!startTime) {
+                startTimer();
+            }
             if (firstCard && secondCard) return;
             if (card === firstCard) return; // Prevent the same card from being clicked twice
             if (card.classList.contains('matched')) return; // Prevent clicking on already matched cards
@@ -31,7 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Mark cards as matched
                     firstCard.classList.add('matched');
                     secondCard.classList.add('matched');
-        
+                    matchedPairs++;
+                    if (matchedPairs === images.length / 2) {
+                        stopTimer();
+                    }
                     showStarAnimation('red-star');
                     showStarAnimation('golden-star');
                     firstCard = null;
@@ -88,4 +94,22 @@ function showStarAnimation(className) {
     setTimeout(() => {
         document.body.removeChild(starContainer);
     }, 1000);
+}
+let startTime = null;
+let timerInterval = null;
+let matchedPairs = 0;
+
+function startTimer() {
+    if (timerInterval) return;  // Ensure the timer only starts once
+
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+        document.getElementById('timer').textContent = `Time: ${elapsedTime}s`;
+    }, 1000);
+}
+
+
+function stopTimer() {
+    clearInterval(timerInterval);
 }
