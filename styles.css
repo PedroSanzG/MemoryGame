@@ -16,7 +16,7 @@ body, html {
     position: absolute;
     top: 10px;
     right: 10px;
-    z-index: 10; /* Ensure it's above the game board */
+    z-index: 10;
     padding: 5px 10px;
     font-size: 0.8rem;
     background-color: #ffffff;
@@ -32,19 +32,18 @@ body, html {
     gap: 1%;
     width: 100%;
     height: 100%;
-    padding: 5%; /* Some padding to ensure cards don't touch the screen edge */
+    padding: 5%;
 }
 
 .card {
     width: 100%;
-    padding-bottom: 100%; /* Ensures a square card */
+    padding-bottom: 100%;
     position: relative;
     background-color: #f4f4f4;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    border: 2px solid gold; /* Add a golden border */
-    box-sizing: border-box; /* Ensure the border is included in the card's dimensions */
+    border: 2px solid gold;
+    box-sizing: border-box;
 }
 
 .card:hover {
@@ -52,6 +51,7 @@ body, html {
 }
 
 .card img {
+    display: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -59,42 +59,42 @@ body, html {
     max-height: 100%;
     transform: translate(-50%, -50%);
     object-fit: contain;
-    display: none;
 }
+
 @keyframes starAnimation {
     0% { transform: scale(0.5); opacity: 0; }
     50% { transform: scale(1.2); opacity: 1; }
     100% { transform: scale(1); opacity: 0; }
 }
 
-.star-container {
-    position: fixed; /* This will make it cover the entire viewport */
-    top: 0;
-    left: 0;
-    width: 100vw; /* 100% of the viewport width */
-    height: 100vh; /* 100% of the viewport height */
-    pointer-events: none; /* So it doesn't interfere with other interactions */
-    z-index: 1000; /* Ensure it's above everything else */
+@keyframes flickerAnimation {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
 }
 
+.star-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+}
 
 .big-star, .tiny-star {
     position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    font-size: 30em; /* Increase the size */
+    font-size: 8em;
     animation: starAnimation 1s forwards;
-    transform: translate(-50%, -50%); /* Adjust for the centering */
 }
 
 .tiny-star {
-    font-size: 15em; /* Increase the size */
+    font-size: 4em;
     animation: flickerAnimation 1s infinite;
 }
 
-
 .red-star {
-    color: rgb(22, 185, 197);
+    color: red;
 }
 
 .golden-star {

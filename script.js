@@ -1,6 +1,3 @@
-let firstCard = null;
-let secondCard = null;
-
 document.addEventListener('DOMContentLoaded', () => {
     const gameBoard = document.querySelector('.game-board');
     const images = [
@@ -20,15 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         card.addEventListener('click', () => {
             if (firstCard && secondCard) return;
-
+            if (card === firstCard) return; // Prevent the same card from being clicked twice
+            if (card.classList.contains('matched')) return; // Prevent clicking on already matched cards
+        
             img.style.display = 'block';
-
+        
             if (!firstCard) {
                 firstCard = card;
             } else {
                 secondCard = card;
-
+        
                 if (firstCard.querySelector('img').src === secondCard.querySelector('img').src) {
+                    // Mark cards as matched
+                    firstCard.classList.add('matched');
+                    secondCard.classList.add('matched');
+        
                     showStarAnimation('red-star');
                     showStarAnimation('golden-star');
                     firstCard = null;
@@ -49,6 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = window.location.href;
     });
 });
+
+let firstCard = null;
+let secondCard = null;
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -83,6 +89,3 @@ function showStarAnimation(className) {
         document.body.removeChild(starContainer);
     }, 1000);
 }
-
-
-
