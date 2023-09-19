@@ -17,12 +17,12 @@ body, html {
     top: 10px;
     right: 10px;
     z-index: 10; /* Ensure it's above the game board */
-    padding: 5px 10px;
-    font-size: 5rem;
+    padding: 3px 6px;
+    font-size: 2rem;
     background-color: #ffffff;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 2px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
