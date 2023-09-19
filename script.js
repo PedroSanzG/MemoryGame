@@ -65,7 +65,7 @@ function showStarAnimation(className) {
     starContainer.appendChild(bigStar);
 
     // Add 5 tiny stars
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
         const tinyStar = document.createElement('div');
         tinyStar.classList.add('tiny-star', className);
         tinyStar.innerText = '★';

@@ -68,27 +68,33 @@ body, html {
 }
 
 .star-container {
-    position: absolute;
-    pointer-events: none; /* So it doesn't interfere with card clicks */
+    position: fixed; /* This will make it cover the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100vw; /* 100% of the viewport width */
+    height: 100vh; /* 100% of the viewport height */
+    pointer-events: none; /* So it doesn't interfere with other interactions */
+    z-index: 1000; /* Ensure it's above everything else */
 }
+
 
 .big-star, .tiny-star {
     position: absolute;
     top: 50%; /* Center vertically */
     left: 50%; /* Center horizontally */
-    font-size: 40em; /* Increase the size */
+    font-size: 30em; /* Increase the size */
     animation: starAnimation 1s forwards;
     transform: translate(-50%, -50%); /* Adjust for the centering */
 }
 
 .tiny-star {
-    font-size: 20em; /* Increase the size */
+    font-size: 15em; /* Increase the size */
     animation: flickerAnimation 1s infinite;
 }
 
 
 .red-star {
-    color: red;
+    color: rgb(22, 185, 197);
 }
 
 .golden-star {
