@@ -1,76 +1,79 @@
-const gameBoard = document.querySelector('.game-board');
-const images = [
-    'image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg', 'image5.jpg',
-    'image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg', 'image5.jpg'
-];
-
-// Shuffle the images
-images.sort(() => 0.5 - Math.random());
-
 let firstCard = null;
 let secondCard = null;
-let canFlip = true;
 
-images.forEach((image, index) => {
-    const card = document.createElement('div');
-    card.classList.add('card');
-    card.dataset.id = index;
+document.addEventListener('DOMContentLoaded', () => {
+    const gameBoard = document.querySelector('.game-board');
+    const images = [
+        'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg',
+        'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg'
+    ];
 
-    const img = document.createElement('img');
-    img.src = image;
-    card.appendChild(img);
+    shuffleArray(images);
 
-    card.addEventListener('click', () => {
-        if (!canFlip) return;
+    images.forEach(imgSrc => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        const img = document.createElement('img');
+        img.src = imgSrc;
+        card.appendChild(img);
+        gameBoard.appendChild(card);
 
-        if (!firstCard) {
-            firstCard = card;
-            card.querySelector('img').style.display = 'block';
-        } else if (!secondCard) {
-            secondCard = card;
-            card.querySelector('img').style.display = 'block';
+        card.addEventListener('click', () => {
+            if (firstCard && secondCard) return;
 
-            if (firstCard.querySelector('img').src === secondCard.querySelector('img').src) {
-                // Matched
-                showStarAnimation(firstCard, 'red-star');
-                showStarAnimation(secondCard, 'golden-star');
-                firstCard = null;
-                secondCard = null;
+            img.style.display = 'block';
+
+            if (!firstCard) {
+                firstCard = card;
             } else {
-                // Not matched
-                canFlip = false;
-                setTimeout(() => {
-                    firstCard.querySelector('img').style.display = 'none';
-                    secondCard.querySelector('img').style.display = 'none';
+                secondCard = card;
+
+                if (firstCard.querySelector('img').src === secondCard.querySelector('img').src) {
+                    showStarAnimation('red-star');
+                    showStarAnimation('golden-star');
                     firstCard = null;
                     secondCard = null;
-                    canFlip = true;
-                }, 1000);
+                } else {
+                    setTimeout(() => {
+                        firstCard.querySelector('img').style.display = 'none';
+                        secondCard.querySelector('img').style.display = 'none';
+                        firstCard = null;
+                        secondCard = null;
+                    }, 1000);
+                }
             }
-        }
+        });
     });
 
-    gameBoard.appendChild(card);
+    document.getElementById('refreshButton').addEventListener('click', () => {
+        window.location.href = window.location.href;
+    });
 });
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
 
 function showStarAnimation(className) {
     const starContainer = document.createElement('div');
     starContainer.classList.add('star-container');
-    
+
     const bigStar = document.createElement('div');
     bigStar.classList.add('big-star', className);
     bigStar.innerText = '★';
-    bigStar.style.left = `${Math.random() * 100}vw`;  // Random position across the viewport width
-    bigStar.style.top = `${Math.random() * 100}vh`;   // Random position across the viewport height
+    bigStar.style.left = `${Math.random() * 100}vw`;
+    bigStar.style.top = `${Math.random() * 100}vh`;
     starContainer.appendChild(bigStar);
 
-    // Add 5 tiny stars
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
         const tinyStar = document.createElement('div');
         tinyStar.classList.add('tiny-star', className);
         tinyStar.innerText = '★';
-        tinyStar.style.left = `${Math.random() * 100}vw`;  // Random position across the viewport width
-        tinyStar.style.top = `${Math.random() * 100}vh`;   // Random position across the viewport height
+        tinyStar.style.left = `${Math.random() * 100}vw`;
+        tinyStar.style.top = `${Math.random() * 100}vh`;
         starContainer.appendChild(tinyStar);
     }
 
@@ -80,5 +83,6 @@ function showStarAnimation(className) {
         document.body.removeChild(starContainer);
     }, 1000);
 }
+
 
 
