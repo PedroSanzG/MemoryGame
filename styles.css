@@ -76,13 +76,13 @@ body, html {
     position: absolute;
     top: 50%; /* Center vertically */
     left: 50%; /* Center horizontally */
-    font-size: 80em; /* Increase the size */
+    font-size: 40em; /* Increase the size */
     animation: starAnimation 1s forwards;
     transform: translate(-50%, -50%); /* Adjust for the centering */
 }
 
 .tiny-star {
-    font-size: 40em; /* Increase the size */
+    font-size: 20em; /* Increase the size */
     animation: flickerAnimation 1s infinite;
 }
 
