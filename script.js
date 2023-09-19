@@ -53,17 +53,15 @@ images.forEach((image, index) => {
     gameBoard.appendChild(card);
 });
 
-// ... existing code ...
-
-// ... existing code ...
-
-function showStarAnimation(card, className) {
+function showStarAnimation(className) {
     const starContainer = document.createElement('div');
     starContainer.classList.add('star-container');
     
     const bigStar = document.createElement('div');
     bigStar.classList.add('big-star', className);
     bigStar.innerText = '★';
+    bigStar.style.left = `${Math.random() * 100}vw`;  // Random position across the viewport width
+    bigStar.style.top = `${Math.random() * 100}vh`;   // Random position across the viewport height
     starContainer.appendChild(bigStar);
 
     // Add 5 tiny stars
@@ -71,23 +69,16 @@ function showStarAnimation(card, className) {
         const tinyStar = document.createElement('div');
         tinyStar.classList.add('tiny-star', className);
         tinyStar.innerText = '★';
-        tinyStar.style.left = `calc(50% + ${Math.random() * 50 - 25}px)`;  // Random position around the center
-        tinyStar.style.top = `calc(50% + ${Math.random() * 50 - 25}px)`;
+        tinyStar.style.left = `${Math.random() * 100}vw`;  // Random position across the viewport width
+        tinyStar.style.top = `${Math.random() * 100}vh`;   // Random position across the viewport height
         starContainer.appendChild(tinyStar);
     }
 
-    const rect = card.getBoundingClientRect();
-    starContainer.style.left = rect.left + window.pageXOffset + 'px';
-    starContainer.style.top = rect.top + window.pageYOffset + 'px';
-    starContainer.style.width = rect.width + 'px'; // Set the width and height of the star container
-    starContainer.style.height = rect.height + 'px';
     document.body.appendChild(starContainer);
 
     setTimeout(() => {
         document.body.removeChild(starContainer);
     }, 1000);
 }
-document.getElementById('refreshButton').addEventListener('click', () => {
-    window.location.href = window.location.href;
-});
+
 
