@@ -1,15 +1,61 @@
-body, html {
-    height: 100%;
-    margin: 0;
+/* General Styles */
+body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    text-align: center;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
 }
 
 .game-container {
+    width: 100%;
+    max-width: 800px;
     position: relative;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    width: 100%;
+}
+
+.card {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    background-color: #f4f4f4;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid gold;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: none;
+}
+
+#timer {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background-color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #refreshButton {
@@ -17,69 +63,35 @@ body, html {
     top: 10px;
     right: 10px;
     z-index: 10;
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    background-color: #ffffff;
-    border: none;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 50%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.game-board {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1%;
-    width: 100%;
-    height: 100%;
-    padding: 5%;
-}
-
-.card {
-    width: 100%;
-    padding-bottom: 100%;
-    position: relative;
-    background-color: #f4f4f4;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 2px solid gold;
-    box-sizing: border-box;
-}
-
-.card:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.card img {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    max-width: 100%;
-    max-height: 100%;
-    transform: translate(-50%, -50%);
-    object-fit: contain;
-}
-
+/* Star Animations */
 @keyframes starAnimation {
-    0% { transform: scale(0.5); opacity: 0; }
-    50% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(1); opacity: 0; }
+    0% {
+        opacity: 0;
+        transform: translateY(1em) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-1em) scale(1.5);
+    }
 }
 
 @keyframes flickerAnimation {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
-
-.star-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 1000;
+    0%, 100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 .big-star, .tiny-star {
@@ -93,20 +105,23 @@ body, html {
     animation: flickerAnimation 1s infinite;
 }
 
-.red-star {
-    color: red;
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card {
+        width: 100px;
+        height: 100px;
+    }
+
+    .game-board {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5%;
+    }
+
+    #refreshButton {
+        width: 30px;
+        height: 30px;
+        top: 5px;
+        right: 5px;
+    }
 }
 
-.golden-star {
-    color: gold;
-}
-#timer {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 10;
-    background-color: #ffffff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
