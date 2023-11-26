@@ -8,13 +8,27 @@
 </head>
 <body>
     <div class="game-container">
-        <img id="refreshButton" src="refresh.png" alt="Refresh Game">
-        <div class="game-board">
-            <!-- Cards will be appended here by JavaScript -->
-        </div>
+        <header>
+            <h1>Memory Game</h1>
+            <div class="level-selection">
+                <label for="level-select">Choose a level:</label>
+                <select id="level-select">
+                    <option value="easy">Easy</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+            <div class="game-info">
+                <p id="attempts">Attempts: 0</p>
+            </div>
+        </header>
+        <section class="card-grid">
+            <!-- Cards will be generated here -->
+        </section>
+        <footer>
+            <button id="restart-button">Restart Game</button>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>
 </html>
-<div id="timer">Time: 0s</div>
-

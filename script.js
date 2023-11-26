@@ -1,115 +1,117 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const gameBoard = document.querySelector('.game-board');
-    const images = [
-        'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg',
-        'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg'
-    ];
+document.addEventListener('DOMContentLoaded', function () {
+    const cardGrid = document.querySelector('.card-grid');
+    const levelSelect = document.getElementById('level-select');
+    let attempts = 0;
+    let hasFlippedCard = false;
+    let lockBoard = false;
+    let firstCard, secondCard;
 
-    shuffleArray(images);
+    const colors = ['red', 'green', 'blue', 'yellow', 'purple', 'cyan', 'orange', 'pink'];
 
-    images.forEach(imgSrc => {
+    function initializeGame(level) {
+        const cards = [];
+        let pairs = 4; // Easy
+        if (level === 'intermediate') pairs = 6; // Intermediate
+        if (level === 'hard') pairs = 8; // Hard
+
+        for (let i = 0; i < pairs; i++) {
+            const card1 = createCard(i);
+            const card2 = createCard(i);
+            cards.push(card1, card2);
+        }
+
+        // Shuffle the cards
+        cards.sort(() => 0.5 - Math.random());
+
+        // Add cards to the grid
+        cardGrid.innerHTML = '';
+        cards.forEach(card => cardGrid.appendChild(card));
+
+        updateAttempts();
+    }
+
+    function createCard(id) {
         const card = document.createElement('div');
         card.classList.add('card');
-        const img = document.createElement('img');
-        img.src = imgSrc;
-        card.appendChild(img);
-        gameBoard.appendChild(card);
+        card.dataset.id = id;
+    
+        // Create card front and back
+        const cardFront = document.createElement('div');
+        cardFront.classList.add('card-front');
+        cardFront.style.backgroundImage = `url('Front_image/Front.jpg')`;
+    
+        const cardBack = document.createElement('div');
+        cardBack.classList.add('card-back');
+        cardBack.style.backgroundImage = `url('images/image${id}.png')`;
 
-        card.addEventListener('click', () => {
-            if (!startTime) {
-                startTimer();
-            }
-            if (firstCard && secondCard) return;
-            if (card === firstCard) return; // Prevent the same card from being clicked twice
-            if (card.classList.contains('matched')) return; // Prevent clicking on already matched cards
-        
-            img.style.display = 'block';
-        
-            if (!firstCard) {
-                firstCard = card;
-            } else {
-                secondCard = card;
-        
-                if (firstCard.querySelector('img').src === secondCard.querySelector('img').src) {
-                    // Mark cards as matched
-                    firstCard.classList.add('matched');
-                    secondCard.classList.add('matched');
-                    matchedPairs++;
-                    if (matchedPairs === images.length / 2) {
-                        stopTimer();
-                    }
-                    showStarAnimation('red-star');
-                    showStarAnimation('golden-star');
-                    firstCard = null;
-                    secondCard = null;
-                } else {
-                    setTimeout(() => {
-                        firstCard.querySelector('img').style.display = 'none';
-                        secondCard.querySelector('img').style.display = 'none';
-                        firstCard = null;
-                        secondCard = null;
-                    }, 1000);
-                }
-            }
-        });
+
+        card.appendChild(cardFront);
+        card.appendChild(cardBack);
+    
+        card.addEventListener('click', flipCard);
+        return card;
+    }
+    
+
+    function flipCard() {
+        if (lockBoard) return;
+        if (this === firstCard) return;
+
+        this.classList.add('flip');
+
+        if (!hasFlippedCard) {
+            hasFlippedCard = true;
+            firstCard = this;
+            return;
+        }
+
+        secondCard = this;
+        checkForMatch();
+    }
+
+    function checkForMatch() {
+        let isMatch = firstCard.dataset.id === secondCard.dataset.id;
+
+        isMatch ? disableCards() : unflipCards();
+    }
+
+    function disableCards() {
+        firstCard.removeEventListener('click', flipCard);
+        secondCard.removeEventListener('click', flipCard);
+
+        resetBoard();
+    }
+
+    function unflipCards() {
+        lockBoard = true;
+
+        setTimeout(() => {
+            firstCard.classList.remove('flip');
+            secondCard.classList.remove('flip');
+
+            resetBoard();
+        }, 1500);
+    }
+
+    function resetBoard() {
+        [hasFlippedCard, lockBoard] = [false, false];
+        [firstCard, secondCard] = [null, null];
+    }
+
+    function updateAttempts() {
+        attempts++;
+        document.getElementById('attempts').innerText = 'Attempts: ' + attempts;
+    }
+
+    levelSelect.addEventListener('change', function() {
+        initializeGame(this.value);
     });
 
-    document.getElementById('refreshButton').addEventListener('click', () => {
-        window.location.href = window.location.href;
+    document.getElementById('restart-button').addEventListener('click', function() {
+        cardGrid.innerHTML = '';
+        attempts = 0;
+        initializeGame(levelSelect.value);
     });
+
+    initializeGame(levelSelect.value);
 });
-
-let firstCard = null;
-let secondCard = null;
-
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
-
-function showStarAnimation(className) {
-    const starContainer = document.createElement('div');
-    starContainer.classList.add('star-container');
-
-    const bigStar = document.createElement('div');
-    bigStar.classList.add('big-star', className);
-    bigStar.innerText = '★';
-    bigStar.style.left = `${Math.random() * 100}vw`;
-    bigStar.style.top = `${Math.random() * 100}vh`;
-    starContainer.appendChild(bigStar);
-
-    for (let i = 0; i < 5; i++) {
-        const tinyStar = document.createElement('div');
-        tinyStar.classList.add('tiny-star', className);
-        tinyStar.innerText = '★';
-        tinyStar.style.left = `${Math.random() * 100}vw`;
-        tinyStar.style.top = `${Math.random() * 100}vh`;
-        starContainer.appendChild(tinyStar);
-    }
-
-    document.body.appendChild(starContainer);
-
-    setTimeout(() => {
-        document.body.removeChild(starContainer);
-    }, 1000);
-}
-let startTime = null;
-let timerInterval = null;
-let matchedPairs = 0;
-
-function startTimer() {
-    if (timerInterval) return;  // Ensure the timer only starts once
-
-    startTime = Date.now();
-    timerInterval = setInterval(() => {
-        const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-        document.getElementById('timer').textContent = `Time: ${elapsedTime}s`;
-    }, 1000);
-}
-
-
-function stopTimer() {
-    clearInterval(timerInterval);
-}
