@@ -5,12 +5,12 @@ body, html {
     background-color: #f0f0f0;
     text-align: center;
     width: 80vw;
-    height: 70vh;
+    height: 80vh;
 }
 
 .game-container {
-    width: 99vw;
-    height: 99vh;
+    width: 89vw;
+    height: 85vh;
     margin: auto;
     padding: 2vw;
     background-color: #fff;
