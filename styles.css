@@ -34,7 +34,7 @@ header h1 {
 }
 
 .card-grid {
-    display: 10px;
+    display: 5px;
     flex-wrap: wrap;
     gap: 1vw;
     margin-top: 2vw;
