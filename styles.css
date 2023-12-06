@@ -9,14 +9,14 @@ body, html {
 }
 
 .game-container {
-    width: 99vw;
-    height: 90vh;
+    width: 89vw;
+    height: 89vh;
     margin: auto;
     padding: 2vw;
     background-color: #fff;
     box-shadow: 0 0 1vw rgba(0, 0, 0, 0.1);
     border-radius: 0.8vw;
-    display: 100px;
+    display: 90px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
