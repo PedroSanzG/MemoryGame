@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const cards = [];
         let pairs = 4; // Easy
         if (level === 'intermediate') pairs = 6; // Intermediate
-        if (level === 'hard') pairs = 8; // Hard
+        //if (level === 'hard') pairs = 8; // Hard
 
         for (let i = 0; i < pairs; i++) {
             const card1 = createCard(i);
