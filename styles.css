@@ -131,7 +131,7 @@ header h1 {
     }
 }
 
-@media (max-width: 600px) {
+/*@media (max-width: 600px) {
     header h1 {
         font-size: 8vw;
     }
@@ -149,5 +149,5 @@ header h1 {
     #restart-button {
         font-size: 3vw;
         padding: 3vw 5vw;
-    }
+    }*/
 }
