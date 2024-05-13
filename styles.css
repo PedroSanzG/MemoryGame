@@ -55,8 +55,8 @@ header h1 {
     cursor: pointer;
     background-size: cover;
     background-position: center;
-    width: 1vw; /* Adjust size as needed */
-    height: 1vw; /* Adjust size as needed */
+    width: 10vw; /* Adjust size as needed */
+    height: 10vw; /* Adjust size as needed */
     transition: transform 0.6s;
     transform-style: preserve-3d;
     position: relative;
