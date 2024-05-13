@@ -34,7 +34,7 @@ header h1 {
 }
 
 .card-grid {
-    display: 5px;
+    display: 10px;
     flex-wrap: wrap;
     gap: 1vw;
     margin-top: 2vw;
@@ -55,8 +55,8 @@ header h1 {
     cursor: pointer;
     background-size: cover;
     background-position: center;
-    width: 10vw; /* Adjust size as needed */
-    height: 10vw; /* Adjust size as needed */
+    width: 50vw; /* Adjust size as needed */
+    height: 50vw; /* Adjust size as needed */
     transition: transform 0.6s;
     transform-style: preserve-3d;
     position: relative;
