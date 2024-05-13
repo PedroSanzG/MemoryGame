@@ -37,26 +37,31 @@ document.addEventListener('DOMContentLoaded', function () {
         updateAttempts(0); // Reset attempts counter
     }
 
-    function createCard(id) {
-        const card = document.createElement('div');
-        card.classList.add('card');
-        card.dataset.id = Math.floor(id / 2); // Pair cards in groups of two
+    function createCard(index) {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    // Assigning a unique ID to each pair
+    // If index is even, it gets the same pair id as the next card (e.g., index 0 and 1 get pair id 0)
+    // If index is odd, it uses the same pair id as the previous card (e.g., index 3 and 4 get pair id 2)
+    card.dataset.id = Math.floor(index / 2); // This groups two cards into a pair
 
-        // Create card front and back
-        const cardFront = document.createElement('div');
-        cardFront.classList.add('card-front');
-        cardFront.style.backgroundImage = `url('Front_image/Front.jpg')`;
-    
-        const cardBack = document.createElement('div');
-        cardBack.classList.add('card-back');
-        cardBack.style.backgroundImage = `url('images/image${id + 1}.png')`; // Use id + 1 for image number
+    const cardFront = document.createElement('div');
+    cardFront.classList.add('card-front');
+    cardFront.style.backgroundImage = `url('Front_image/Front.jpg')`;
 
-        card.appendChild(cardFront);
-        card.appendChild(cardBack);
-    
-        card.addEventListener('click', flipCard);
-        return card;
-    }
+    const cardBack = document.createElement('div');
+    cardBack.classList.add('card-back');
+    // Assigns consecutive images to pairs
+    // index + 1 ensures that card indices 0 and 1 use images 1 and 2, indices 2 and 3 use images 3 and 4, etc.
+    cardBack.style.backgroundImage = `url('images/image${index + 1}.png')`;
+
+    card.appendChild(cardFront);
+    card.appendChild(cardBack);
+
+    card.addEventListener('click', flipCard);
+    return card;
+}
+
     
     function flipCard() {
         if (lockBoard) return;
