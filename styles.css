@@ -56,7 +56,7 @@ header h1 {
     background-size: cover;
     background-position: center;
     width: 20vw; /* Adjust size as needed */
-    height: 20vw; /* Adjust size as needed */
+    height: 25vw; /* Adjust size as needed */
     transition: transform 0.4s;
     transform-style: preserve-3d;
     position: relative;
