@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 pairs = 6; // 12 images, 6 pairs
                 break;
             case 'hard':
-                pairs = 15; // 30 images, 15 pairs (ensure you have enough images or adjust)
+                pairs = 12; // 24 images, 15 pairs (ensure you have enough images or adjust)
                 break;
         }
 
