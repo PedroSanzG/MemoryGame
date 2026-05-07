@@ -1,34 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Game</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Scale Quiz</title>
+
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="game-container">
-        <header>
-            <h1>Memory Game</h1>
-            <div class="level-selection">
-                <label for="level-select">Choose a level:</label>
-                <select id="level-select">
-                    <!--<option value="easy">Easy</option>-->
-                    <option value="intermediate">Intermediate</option>
-                    <option value="hard">Hard</option>
-                </select>
-            </div>
-            <div class="game-info">
-                <p id="attempts">Attempts: 0</p>
-            </div>
-        </header>
-        <section class="card-grid">
-            <!-- Cards will be generated here -->
-        </section>
-        <footer>
-            <button id="restart-button">Restart Game</button>
-        </footer>
-    </div>
-    <script src="script.js"></script>
+  <div class="app">
+    <section id="startScreen">
+      <h1>QR Scale Quiz</h1>
+      <p>Participants scan the QR code to start answering the 10 questions.</p>
+
+      <img
+        class="qr"
+        id="qrImage"
+        src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://pedrosanzg.github.io/MemoryGame/"
+        alt="QR Code"
+      />
+
+      <br />
+      <button class="button" onclick="startQuiz()">Start Quiz</button>
+    </section>
+
+    <section id="quizScreen" class="hidden">
+      <div class="progress-info">
+        <span id="questionCounter">Question 1 / 10</span>
+        <span id="questionPercent">10%</span>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <h2 id="questionText"></h2>
+
+      <div class="scale-buttons" id="scaleButtons"></div>
+
+      <div class="scale-labels">
+        <span>Low</span>
+        <span>High</span>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="hidden">
+      <div class="trophy">🏆</div>
+      <h1>Final Score</h1>
+
+      <div class="score-box" id="finalScore"></div>
+
+      <div class="summary">
+        <h3>Answer Summary</h3>
+        <div id="answerSummary"></div>
+      </div>
+
+      <button class="button" onclick="restartQuiz()">Restart Quiz</button>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
