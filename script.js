@@ -1,127 +1,97 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const cardGrid = document.querySelector('.card-grid');
-    const levelSelect = document.getElementById('level-select');
-    let attempts = 0;
-    let hasFlippedCard = false;
-    let lockBoard = false;
-    let firstCard, secondCard;
+const questions = [
+  "How satisfied are you with the event organization?",
+  "How clear was the communication before the event?",
+  "How useful was the content presented?",
+  "How engaging were the activities?",
+  "How likely are you to recommend this experience?",
+  "Rate the quality of the facilitators.",
+  "How interactive was the session?",
+  "How valuable was the information shared?",
+  "How easy was it to participate?",
+  "Overall experience rating."
+];
 
-    function initializeGame(level) {
-        const cards = [];
-        let pairs; // Number of pairs based on difficulty
-        switch (level) {
-            case 'easy':
-                pairs = 3; // 6 images, 3 pairs
-                break;
-            case 'intermediate':
-                pairs = 6; // 12 images, 6 pairs
-                break;
-            case 'hard':
-                pairs = 12; // 24 images, 15 pairs (ensure you have enough images or adjust)
-                break;
-        }
+let currentQuestion = 0;
+let answers = [];
 
-        for (let i = 0; i < pairs; i++) {
-            const card1 = createCard(2 * i);
-            const card2 = createCard(2 * i + 1);
-            cards.push(card1, card2);
-        }
+const startScreen = document.getElementById("startScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
+const questionText = document.getElementById("questionText");
+const questionCounter = document.getElementById("questionCounter");
+const questionPercent = document.getElementById("questionPercent");
+const progressFill = document.getElementById("progressFill");
+const scaleButtons = document.getElementById("scaleButtons");
+const finalScore = document.getElementById("finalScore");
+const answerSummary = document.getElementById("answerSummary");
 
-        // Shuffle the cards
-        cards.sort(() => 0.5 - Math.random());
+function startQuiz() {
+  currentQuestion = 0;
+  answers = [];
 
-        // Add cards to the grid
-        cardGrid.innerHTML = '';
-        cards.forEach(card => cardGrid.appendChild(card));
+  startScreen.classList.add("hidden");
+  resultScreen.classList.add("hidden");
+  quizScreen.classList.remove("hidden");
 
-        updateAttempts(0); // Reset attempts counter
-    }
-
-    function createCard(index) {
-    const card = document.createElement('div');
-    card.classList.add('card');
-    // Assigning a unique ID to each pair
-    // If index is even, it gets the same pair id as the next card (e.g., index 0 and 1 get pair id 0)
-    // If index is odd, it uses the same pair id as the previous card (e.g., index 3 and 4 get pair id 2)
-    card.dataset.id = Math.floor(index / 2); // This groups two cards into a pair
-
-    const cardFront = document.createElement('div');
-    cardFront.classList.add('card-front');
-    cardFront.style.backgroundImage = `url('Front_image/Front.jpg')`;
-
-    const cardBack = document.createElement('div');
-    cardBack.classList.add('card-back');
-    // Assigns consecutive images to pairs
-    // index + 1 ensures that card indices 0 and 1 use images 1 and 2, indices 2 and 3 use images 3 and 4, etc.
-    cardBack.style.backgroundImage = `url('images/image${index + 1}.png')`;
-
-    card.appendChild(cardFront);
-    card.appendChild(cardBack);
-
-    card.addEventListener('click', flipCard);
-    return card;
+  showQuestion();
 }
 
-    
-    function flipCard() {
-        if (lockBoard) return;
-        if (this === firstCard) return;
+function showQuestion() {
+  questionText.textContent = questions[currentQuestion];
 
-        this.classList.add('flip');
+  const questionNumber = currentQuestion + 1;
+  const percent = Math.round((questionNumber / questions.length) * 100);
 
-        if (!hasFlippedCard) {
-            hasFlippedCard = true;
-            firstCard = this;
-            return;
-        }
+  questionCounter.textContent = `Question ${questionNumber} / ${questions.length}`;
+  questionPercent.textContent = `${percent}%`;
+  progressFill.style.width = `${percent}%`;
 
-        secondCard = this;
-        checkForMatch();
-    }
+  scaleButtons.innerHTML = "";
 
-    function checkForMatch() {
-        let isMatch = firstCard.dataset.id === secondCard.dataset.id;
+  for (let i = 1; i <= 5; i++) {
+    const button = document.createElement("button");
+    button.className = "scale-button";
+    button.textContent = i;
+    button.onclick = () => selectAnswer(i);
+    scaleButtons.appendChild(button);
+  }
+}
 
-        isMatch ? disableCards() : unflipCards();
-    }
+function selectAnswer(value) {
+  answers.push(value);
 
-    function disableCards() {
-        firstCard.removeEventListener('click', flipCard);
-        secondCard.removeEventListener('click', flipCard);
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
+    showQuestion();
+  } else {
+    showResults();
+  }
+}
 
-        resetBoard();
-    }
+function showResults() {
+  quizScreen.classList.add("hidden");
+  resultScreen.classList.remove("hidden");
 
-    function unflipCards() {
-        lockBoard = true;
+  const total = answers.reduce((sum, value) => sum + value, 0);
+  const maxPossible = questions.length * 5;
+  const scoreOutOfTen = ((total / maxPossible) * 10).toFixed(1);
 
-        setTimeout(() => {
-            firstCard.classList.remove('flip');
-            secondCard.classList.remove('flip');
+  finalScore.textContent = `${scoreOutOfTen} / 10`;
+  answerSummary.innerHTML = "";
 
-            resetBoard();
-        }, 1500);
-    }
+  answers.forEach((answer, index) => {
+    const row = document.createElement("div");
+    row.className = "summary-row";
+    row.innerHTML = `<span>Question ${index + 1}</span><strong>${answer}/5</strong>`;
+    answerSummary.appendChild(row);
+  });
+}
 
-    function resetBoard() {
-        [hasFlippedCard, lockBoard] = [false, false];
-        [firstCard, secondCard] = [null, null];
-    }
+function restartQuiz() {
+  currentQuestion = 0;
+  answers = [];
 
-    function updateAttempts(val) {
-        attempts = val;
-        document.getElementById('attempts').innerText = 'Attempts: ' + attempts;
-    }
-
-    levelSelect.addEventListener('change', function() {
-        initializeGame(this.value);
-    });
-
-    document.getElementById('restart-button').addEventListener('click', function() {
-        cardGrid.innerHTML = '';
-        attempts = 0;
-        initializeGame(levelSelect.value);
-    });
-
-    initializeGame(levelSelect.value);
-});
+  resultScreen.classList.add("hidden");
+  quizScreen.classList.add("hidden");
+  startScreen.classList.remove("hidden");
+}
